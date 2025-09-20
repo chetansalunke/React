@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import TeamForm from "../components/TeamForm";
+import "./Teams.css";
 
 const API = "http://localhost:3000/api/teams";
 
@@ -51,44 +52,44 @@ function Teams() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Teams</h2>
-      <div style={{ marginBottom: "20px" }}>
+    <div className="teams-container">
+      <h2 className="teams-title">Teams Management</h2>
+      <div className="team-form-container">
         <TeamForm onSuccess={handleSuccess} editTeam={editTeam} />
       </div>
-      <div className="teams-list">
+      <div className="teams-list-container">
+        <div className="teams-header">
+          <div className="header-name">Team Name</div>
+          <div className="header-description">Description</div>
+          <div className="header-actions">Actions</div>
+        </div>
         {teams.map((team) => (
-          <div
-            key={team.id}
-            style={{
-              marginBottom: "10px",
-              padding: "10px",
-              border: "1px solid #ddd",
-              borderRadius: "4px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <div>
-              <strong>{team.name}</strong> - {team.description}
-            </div>
-            <div>
+          <div key={team.id} className="team-list-item">
+            <div className="team-name">{team.name}</div>
+            <div className="team-description">{team.description}</div>
+            <div className="team-actions">
               <button
+                className="edit-button"
                 onClick={() => handleEdit(team)}
-                style={{ marginRight: "5px" }}
+                aria-label="Edit team"
               >
-                Edit
+                <span className="button-text">Edit</span>
               </button>
               <button
+                className="delete-button"
                 onClick={() => handleDelete(team.id)}
-                style={{ backgroundColor: "#ff4444", color: "white" }}
+                aria-label="Delete team"
               >
-                Delete
+                <span className="button-text">Delete</span>
               </button>
             </div>
           </div>
         ))}
+        {teams.length === 0 && (
+          <div className="no-teams">
+            <p>No teams available. Create your first team!</p>
+          </div>
+        )}
       </div>
     </div>
   );
